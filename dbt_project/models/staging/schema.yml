@@ -1,0 +1,39 @@
+version: 2
+
+sources:
+  - name: raw
+    database: airflow
+    schema: raw
+    tables:
+      - name: flights
+        description: "Raw flight data ingested from source"
+        columns:
+          - name: id
+            description: "Primary key"
+          - name: flight_date
+            description: "Date of the flight"
+          - name: airline
+            description: "Airline code"
+          - name: flight_number
+            description: "Flight number"
+
+models:
+  - name: stg_flights
+    description: "Cleaned and deduplicated flight data"
+    columns:
+      - name: flight_date
+        description: "Date of the flight"
+        tests:
+          - not_null
+      - name: airline
+        description: "Airline code"
+        tests:
+          - not_null
+      - name: origin
+        description: "Origin airport code"
+        tests:
+          - not_null
+      - name: destination
+        description: "Destination airport code"
+        tests:
+          - not_null
